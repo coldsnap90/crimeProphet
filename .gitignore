@@ -1,0 +1,4 @@
+app\management\commands\statt.py
+app\management\commands\staz.py
+.venv
+.env

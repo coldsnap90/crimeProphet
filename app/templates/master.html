@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"  type="text/css" >
+   
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  {% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+</head>
+<body>
+    <div class = "container-fluid" id="header">
+        <div class="row">
+            <div class="col" id="Freedomfont"> 
+              CRIME WATCH
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" id='nav'>
+        <ul class="nav info"  >
+            <li class="nav-item">
+            <a class="nav-link link-dark" id="FreedomfontNav" href="/home">HOME</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link link-dark" id="FreedomfontNav" href="/create_plot">DATA</a>
+            </li>
+        </ul>
+    </div>
+    {% block content %}
+
+    {% endblock %}
+
+      
+    <div class = "container-fluid" id="footer">
+        <div class="row">
+            <div class="col" id="Freedomfont"> 
+                    Operated by : Brute Force Solutions
+            </div>
+        </div>
+    </div>
+<script src="{% static 'js/alerts.js' %}"></script>
+</body>
+</html>

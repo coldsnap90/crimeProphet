@@ -1,0 +1,81 @@
+{% extends "master.html" %}
+{% block content %}
+
+<div class="container-fluid" id="content-border" >
+    
+    <div class="container-fluid mt-3 text-center">
+        {% if messages %}
+            <div class="alert-container">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    
+    <div class="row" id="center">
+        <div class ='col-4' id="filter">
+            <form action="/create_plot/" method="post">
+                <div class="container" id="content-border">
+                    <div class="row mt-3 justify-content-center">
+                        {% csrf_token %}
+                        {{form.start_date.label}}<br>
+                        {{ form.start_date }}
+                    </div>
+                    <div class="row mt-3 justify-content-center">
+                        {{form.end_date.label}}<br>
+                        {{ form.end_date }}
+                    </div>
+                    <div class ='row mt-3 justify-content-center'>
+                        {{form.crime.label}}<br>
+                        {{form.crime}}
+                    </div>
+                    <div class ='row mt-3 justify-content-center'>
+                        {{form.graph_options.label}}<br>
+                        {{form.graph_options}}
+                    </div>
+                    <div class="row m-5 text-center">
+                        <input type="submit" value="Submit">
+                    </div>
+                </div>
+            </form>
+        </div>
+      
+    </div>
+</div>
+{% if chart %}
+<div class="container-fluid" id="content-border" >
+    {% if graph1 %}
+    <div class="row" >
+        <div class ='col' id="center">
+            <img src="data:image/png;base64,{{ graph1}}" style='width:75%;border-radius: 25px;border: 5px solid #495D5F' class ='img-fluid mx-auto d-block'  alt="Forecast Chart">
+        </div>     
+    </div>
+    {% endif %}
+
+
+
+    {% if graph2 %}
+    <div class="row" >
+        <div class="col" id="center">
+            <img src="data:image/png;base64,{{ graph2}}" style='width:75%;border-radius: 25px;border: 5px solid #495D5F' class ='img-fluid mx-auto d-block' alt="Forecast Chart">
+        </div>
+    </div>
+    {% endif %}
+
+
+
+    {% if graph3 %}
+    <div class="row" >
+        <div class="col" id="center" >
+            <img src="data:image/png;base64,{{ graph3 }}" style='width:75%;border-radius: 25px;border: 5px solid #495D5F' class ='img-fluid mx-auto d-block'  alt="Forecast Chart">
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+
+{% endblock %}

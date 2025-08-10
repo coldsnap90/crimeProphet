@@ -1,0 +1,88 @@
+#header {
+    border-bottom: 2px solid black;
+    height: 15vh;
+    background-color: #d0bdf4;
+}
+
+#footer {
+    border-top: 2px solid black;
+    height: 15vh;
+    background-color: #8458B3;
+}
+
+#nav{
+    padding:0;
+    margin: 0;
+    background-color: #e5eaf5;
+    color:black;
+
+}
+
+html {
+    padding:0;
+    margin: 0;
+    background-color: #a0d2eb;
+    
+}
+
+body {
+    padding:0;
+    margin: 0;
+    background-color: #8458B3;
+    z-index:1;
+}
+
+#center{
+    margin: 5rem;
+    padding: 5rem;
+    border: 5px solid #495D5F;
+    border-radius: 25px;
+    background-color: #a28089;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    
+    
+}
+.graph{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+#createPlot{
+    margin: 5rem;
+    padding: 5rem;
+    height: 0.5vh;
+    border: 5px solid #495D5F;
+    border-radius: 25px;
+    color: #495D5F;
+    background-color: #a28089; 
+    justify-content: center;
+
+}
+
+
+#filter{
+    border: 5px solid #495D5F;
+    border-radius: 25px;
+    
+}
+
+@font-face { font-family: 'Freedom'; 
+    src: url('../fonts/Freedom-10eM.ttf'); }
+
+
+
+#Freedomfont {
+    font-family: 'Freedom';
+    font-size: 2rem;
+}
+
+#FreedomfontNav {
+    font-family: 'Freedom';
+    font-size: 1.25rem;
+}
+
+.alert {
+    transition: opacity 0.6s ease-out;
+}
