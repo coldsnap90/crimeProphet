@@ -9,56 +9,57 @@ from datetime import datetime
 
 
 
-
+'command to automate data processing from csv'
 class Command(BaseCommand):
     help = 'loads crime data from csv'
     def handle(self,*args,**kwargs):
-        print('handle called')
         gmaps = googlemaps.Client(key=os.environ.get('G_API_KEY'))
         data_file = 'app\data\Oct_Dec_2023_New_Westminster_Police_Department_report.csv'
         keys = ('ccn','date','updateDate','city','state','postalCode','blocksizedAddress','incidentType','parentIncidentType','narrative')
         records = []
-        print('file open')
         counter = 0
         with open(data_file,'r') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                records.append({k: row[k] for k in keys})
+                records.append({key: row[key] for key in keys})
 
         recordHolder={}      
         for item in records:
             address = item['blocksizedAddress']
             city = item['city']
-            a = "%m/%d/%Y, %H:%M:%S PM"
-            z = "%m/%d/%Y, %H:%M:%S AM"
-            x = item['date']
-            h = item['updateDate']
-            l = len(x)
-            j=x[l-2:]
+            address = item['blocksizedAddress']
+            city = item['city']
+            datePm = "%m/%d/%Y, %H:%M:%S PM"
+            dateAm = "%m/%d/%Y, %H:%M:%S AM"
+            dfDate = item['date']
+            dfUpdateDate = item['updateDate']
+            dateLength = len(datePm)
+            dateUpdate= dateAm[dateLength-2:]
+
 
             try:
-                p = datetime.strptime(x,a)
-                if p.hour < 12:
-                    p = p.replace(hour=p.hour+12)
-                item['date'] = p
+                dateString = datetime.strptime(dfDate,datePm)
+                if dateString.hour < 12:
+                    dateString = dateString.replace(hour=dateString.hour+12)
+                item['date'] = dateString
     
             except:
-                p = datetime.strptime(x,z)
-                if p.hour == 12:
-                    p = p.replace(hour=p.hour-12)   
-                item['date'] = p
+                dateString = datetime.strptime(dfDate,dateAm)
+                if dateString.hour == 12:
+                    dateString = dateString.replace(hour=dateString.hour-12)   
+                item['date'] = dateString
 
             try:
-                p = datetime.strptime(h,a)
-                if p.hour < 12:
-                    p = p.replace(hour=p.hour+12)
-                item['updateDate'] = p
+                dateString = datetime.strptime(dfUpdateDate,datePm)
+                if dateString.hour < 12:
+                    dateString = dateString.replace(hour=dateString.hour+12)
+                item['updateDate'] = dateString
     
             except:
-                p = datetime.strptime(h,z)
-                if p.hour == 12:
-                    p = p.replace(hour=p.hour-12)   
-                item['updateDate'] = p
+                dateString = datetime.strptime(dfUpdateDate,dateAm)
+                if dateString.hour == 12:
+                    dateString = dateString.replace(hour=dateString.hour-12)   
+                item['updateDate'] = dateString
 
             if address not in recordHolder:
                 result = gmaps.geocode(f'{address},{city}')[0]
@@ -73,7 +74,7 @@ class Command(BaseCommand):
                 latLon = recordHolder[address].split(',')
                 item['lat'] = float(latLon[0])
                 item['long'] = float(latLon[1])
-            print(item)
+          
             crimeModel.objects.get_or_create(ccn = item['ccn'],
                                              date = item['date'],
                                              update_date = item['updateDate'],

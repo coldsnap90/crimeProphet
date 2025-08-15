@@ -381,4 +381,62 @@ print('/n ',records[0:2])
 
 #print(dict1)
 '''
+'''
+def create_plot1(request):
+    messages.success(request, 'Increasing date windows will lead to larger loading time for data.')
+    crimes = crimeModel.objects.all()
+    if request.method == 'POST':
+        form = dataForm(request.POST)
+        if form.is_valid():
+          
 
+            start_date = str(form.cleaned_data['start_date'])
+            end_date = str(form.cleaned_data['end_date'])
+            crime = form.cleaned_data['crime']
+            print('crime : ',crime)
+       
+            end_points = crimes.filter(date__lte=end_date).all() & crimes.filter(date__gte=start_date).all()
+            print('end points1 : ',end_points)
+            if crime != 'ALL':
+                end_points = end_points.filter(incident__istartswith=crime).all()
+                print('end points all : ',end_points)
+          
+           
+            m = set_up_model(end_points)
+
+            funcs_with_args = []
+            selected_options = form.cleaned_data['graph_options']
+          
+            if 'option1' in selected_options:
+                print('appending')
+                funcs_with_args.append((plot_crime_rate, (m,)))
+
+            if 'option2' in selected_options:
+                print('appending')
+                funcs_with_args.append((plot_crime_rate_trends, (m,)))
+
+            if 'option3' in selected_options:
+                print('appending')
+                funcs_with_args.append((plot_cv_metric, (m,)))
+
+            x = time.time()
+            results = []
+            results = process_functions(funcs_with_args)
+ 
+            y = time.time()
+            print('total time async: ',y-x)
+            form = dataForm()
+            context = {'chart':True,'form':form}
+            counter=1
+            for pic in results:
+                    context[ f'graph{counter}']= pic
+                    counter+=1
+
+            #Render the HTML template with the graph
+           
+            return render(request, 'graphs.html', context)
+    else:
+        form = dataForm()
+        context = {'form':form,'chart':False}
+        return render(request, 'graphs.html',context)
+'''

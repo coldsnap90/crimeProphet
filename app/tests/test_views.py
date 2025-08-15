@@ -4,6 +4,7 @@ from django.contrib.messages import get_messages
 from models import crimeModel
 from datetime import datetime
 from forms import filterForm, dataForm
+from unittest.mock import patch
 
 class ViewTests(TestCase):
 
@@ -51,11 +52,12 @@ class ViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'index.html')
     
-    @patch('yourapp.views.plot_cv_metric', return_value='<img src="mocked_plot3.png">')
-    @patch('yourapp.views.plot_crime_rate_trends', return_value='<img src="mocked_plot2.png">')
-    @patch('yourapp.views.plot_crime_rate', return_value='<img src="mocked_plot1.png">')
-    @patch('yourapp.views.process_functions', return_value=['<img src="mocked_plot1.png">', '<img src="mocked_plot2.png">'])
-    @patch('yourapp.views.set_up_model')
+    @patch('app.views.plot_cv_metric', return_value='<img src="mocked_plot3.png">')
+    @patch('app.views.plot_crime_rate_trends', return_value='<img src="mocked_plot2.png">')
+    @patch('app.views.plot_crime_rate', return_value='<img src="mocked_plot1.png">')
+    @patch('app.views.process_functions', return_value=['<img src="mocked_plot1.png">', '<img src="mocked_plot2.png">'])
+    @patch('app.views.set_up_model')
+
     def test_create_plot_with_all_graphs_mocked(
         self, mock_setup_model, mock_process, mock_plot1, mock_plot2, mock_plot3
     ):
